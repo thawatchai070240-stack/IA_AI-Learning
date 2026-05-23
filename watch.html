@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>กำลังเล่น — AI Audit Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar"></nav>
+
+  <div class="watch-shell">
+    <div class="player-wrap">
+      <div class="player" id="player">
+        <div class="player-placeholder" id="playerPlaceholder">
+          <div class="coming-soon-pill" style="margin-bottom:18px;font-size:14px;">Coming Soon</div>
+          <div class="play-icon" style="background:rgba(255,183,3,0.9);box-shadow:0 8px 30px rgba(255,183,3,0.35);"></div>
+          <h2 id="phTitle">เร็วๆ นี้ — รอการอัปโหลดวิดีโอ</h2>
+          <div class="hint">เนื้อหาคลิปนี้กำลังอยู่ระหว่างการผลิต <br/>ติดตามอัปเดตได้ที่หน้าแรก</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="watch-meta">
+      <div>
+        <div class="video-info">
+          <h1 id="videoTitle">กำลังโหลด...</h1>
+          <div class="video-stats" id="videoStats"></div>
+        </div>
+
+        <div class="video-desc" id="videoDesc"></div>
+
+        <!-- COMMENTS -->
+        <section class="comments-section">
+          <h3>ความคิดเห็น <span class="count" id="commentCount">0</span></h3>
+          <div class="comment-form">
+            <div class="comment-form-body">
+              <textarea id="commentInput" placeholder="แสดงความคิดเห็น..."></textarea>
+              <div class="comment-form-actions">
+                <button class="btn-sm ghost" id="btnCancel">ล้าง</button>
+                <button class="btn-sm primary" id="btnPost">โพสต์</button>
+              </div>
+            </div>
+          </div>
+          <div id="commentList"></div>
+        </section>
+      </div>
+
+      <!-- RIGHT: Up Next -->
+      <aside>
+        <div class="sidebar-card">
+          <h3>ดูต่อ</h3>
+          <div id="upNext"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <footer class="footer">
+    AI Audit Hub © 2026 — Internal Use Only · Prototype Build
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    renderNavbar();
+
+    /* ---------- Resolve current video ---------- */
+    const params = new URLSearchParams(window.location.search);
+    const videoId = params.get('v') || 'v01';
+    const video = VIDEOS.find(v => v.id === videoId) || VIDEOS[0];
+
+    document.title = `${video.title} — AI Audit Hub`;
+    document.getElementById('videoTitle').textContent = video.title;
+    document.getElementById('videoDesc').innerHTML = `<strong>เกี่ยวกับคลิปนี้:</strong> ${video.desc}`;
+
+    /* ---------- Show real video or placeholder ---------- */
+    if (video.src) {
+      document.getElementById('player').innerHTML = `
+        <video controls autoplay style="width:100%;border-radius:8px;background:#000;">
+          <source src="${video.src}" type="video/mp4">
+          เบราว์เซอร์ของคุณไม่รองรับ video tag
+        </video>`;
+    } else {
+      document.getElementById('phTitle').textContent = video.title;
+      document.getElementById('playerPlaceholder').style.background =
+        `radial-gradient(ellipse at center, #1a1a22 0%, #050507 75%)`;
+    }
+
+    /* ---------- Live viewer count ---------- */
+    function refreshViewers() {
+      const count = tickViewerCount(video.id);
+      document.getElementById('videoStats').innerHTML = `
+        <span class="stat"><span class="live-dot"></span> <strong>${count}</strong> คนกำลังดูตอนนี้</span>
+        <span>·</span>
+        <span class="stat">${video.duration}</span>
+      `;
+    }
+    refreshViewers();
+    setInterval(refreshViewers, 5000);
+
+    /* ---------- Comments ---------- */
+    function renderComments() {
+      const list = getComments(video.id);
+      document.getElementById('commentCount').textContent = list.length;
+      const container = document.getElementById('commentList');
+      if (!list.length) {
+        container.innerHTML = `<div class="empty-comments">ยังไม่มีความคิดเห็น เป็นคนแรกที่แชร์ความคิดเห็น!</div>`;
+        return;
+      }
+      container.innerHTML = list.map(c => `
+        <div class="comment">
+          <div class="comment-body">
+            <div class="comment-head">
+              <span class="comment-author">${c.author || 'ผู้ชม'}</span>
+              <span class="comment-time">${timeAgo(c.ts)}</span>
+            </div>
+            <div class="comment-text">${escapeHtml(c.text)}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, m => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[m]));
+    }
+
+    document.getElementById('btnPost').addEventListener('click', () => {
+      const input = document.getElementById('commentInput');
+      const text = input.value.trim();
+      if (!text) { toast('กรุณาเขียนความคิดเห็นก่อนโพสต์'); return; }
+      addComment(video.id, {
+        author: 'ผู้ชม',
+        text,
+        ts: Date.now(),
+      });
+      input.value = '';
+      renderComments();
+      toast('โพสต์ความคิดเห็นเรียบร้อย');
+    });
+
+    document.getElementById('btnCancel').addEventListener('click', () => {
+      document.getElementById('commentInput').value = '';
+    });
+
+    renderComments();
+
+    /* ---------- Up Next ---------- */
+    function renderUpNext() {
+      const others = VIDEOS.filter(v => v.id !== video.id).slice(0, 5);
+      document.getElementById('upNext').innerHTML = others.map(v => `
+        <div class="up-next-item" data-id="${v.id}">
+          <div class="up-next-thumb ${v.thumbImg ? '' : v.thumb}" style="position:relative;${v.thumbImg ? 'overflow:hidden;' : ''}">
+            ${v.thumbImg ? `<img src="${v.thumbImg}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;" alt="${v.title}"/>` : ''}
+            ${!v.src ? `<span style="position:absolute;top:2px;right:2px;background:#ffb703;color:#1a1a1a;font-size:8px;font-weight:800;padding:2px 5px;border-radius:3px;letter-spacing:0.5px;">SOON</span>` : ''}
+          </div>
+          <div class="up-next-info">
+            <h4>${v.title}</h4>
+            <span style="color:${v.src ? '#4caf50' : '#ffb703'};">${v.src ? '▶ พร้อมดู' : 'เร็วๆ นี้'} · ${v.duration}</span>
+          </div>
+        </div>
+      `).join('');
+      document.querySelectorAll('.up-next-item').forEach(el => {
+        el.addEventListener('click', () => {
+          window.location.href = `watch.html?v=${el.dataset.id}`;
+        });
+      });
+    }
+    renderUpNext();
+  </script>
+</body>
+</html>

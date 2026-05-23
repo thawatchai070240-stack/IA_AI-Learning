@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Audit Hub — คลังคลิป AI สำหรับ Internal Auditor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar"></nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
+      <source src="assets/Hero background.mp4" type="video/mp4">
+    </video>
+    <div class="hero-gradient"></div>
+    <button class="hero-mute-btn" id="heroMuteBtn" title="คลิกเพื่อปิดเสียง">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="muteIcon">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+      </svg>
+    </button>
+    <div class="hero-content">
+      <span class="hero-tag">🎬 เปิดให้ดูแล้ว 3 คลิป!</span>
+      <h1>เปลี่ยนงาน Internal Audit ด้วย AI</h1>
+      <p>คลังคลิปวิดีโอเรียนรู้การใช้ AI สำหรับ Internal Auditor ทุกระดับ ตั้งแต่พื้นฐานไปจนถึงการสร้าง Audit Agent ของตัวเอง</p>
+      <div class="hero-actions">
+        <a href="watch.html?v=v01" class="btn-play">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          ดู EP1 เลย
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROWS -->
+  <main class="rows-wrap" id="rowsContainer"></main>
+
+  <footer class="footer">
+    AI Audit Hub © 2026 — Internal Use Only · Prototype Build
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    renderNavbar();
+
+    /* ---------- Hero video: mute/unmute control ---------- */
+    const heroVideo = document.getElementById('heroVideo');
+    const muteBtn = document.getElementById('heroMuteBtn');
+    let isMuted = true;
+
+    const soundIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+    </svg>`;
+    const muteIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <line x1="23" y1="9" x2="17" y2="15"></line>
+      <line x1="17" y1="9" x2="23" y2="15"></line>
+    </svg>`;
+
+    function setMuted(muted) {
+      isMuted = muted;
+      heroVideo.muted = muted;
+      if (!muted) heroVideo.volume = 0.5;
+      muteBtn.innerHTML = muted ? muteIcon : soundIcon;
+      muteBtn.title = muted ? 'คลิกเพื่อเปิดเสียง' : 'คลิกเพื่อปิดเสียง';
+    }
+
+    muteBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setMuted(!isMuted);
+    });
+
+    // Auto-unmute on first interaction (ยกเว้นคลิกปุ่ม mute เอง)
+    function autoUnmuteOnce() {
+      setMuted(false);
+      window.removeEventListener('click', autoUnmuteOnce);
+      window.removeEventListener('keydown', autoUnmuteOnce);
+      window.removeEventListener('scroll', autoUnmuteOnce);
+    }
+    window.addEventListener('click', autoUnmuteOnce);
+    window.addEventListener('keydown', autoUnmuteOnce);
+    window.addEventListener('scroll', autoUnmuteOnce, { passive: true });
+
+    /* ---------- Render all videos in one row ---------- */
+    function renderRows() {
+      const container = document.getElementById('rowsContainer');
+      const available = VIDEOS.filter(v => v.src);
+      const comingSoon = VIDEOS.filter(v => !v.src);
+
+      let html = '';
+
+      // Row 1: พร้อมดู
+      if (available.length) {
+        html += `
+          <section class="row">
+            <div class="row-header">
+              <h2 class="row-title">พร้อมดู</h2>
+              <span class="row-meta">${available.length} คลิป</span>
+            </div>
+            <div class="row-scroll">
+              ${available.map(v => cardHtml(v)).join('')}
+            </div>
+          </section>
+        `;
+      }
+
+      // Row 2: Coming Soon
+      if (comingSoon.length) {
+        html += `
+          <section class="row">
+            <div class="row-header">
+              <h2 class="row-title">Coming Soon</h2>
+              <span class="row-meta">${comingSoon.length} คลิป</span>
+            </div>
+            <div class="row-scroll">
+              ${comingSoon.map(v => cardHtml(v)).join('')}
+            </div>
+          </section>
+        `;
+      }
+
+      container.innerHTML = html;
+
+      // Bind card clicks — only playable cards
+      container.querySelectorAll('.card[data-playable="true"]').forEach(c => {
+        c.addEventListener('click', () => {
+          window.location.href = `watch.html?v=${c.dataset.id}`;
+        });
+      });
+    }
+
+    function cardHtml(v) {
+      const hasVideo = !!v.src;
+      return `
+        <div class="card" data-id="${v.id}" data-playable="${hasVideo}">
+          ${v.thumbImg
+            ? `<img class="card-thumb-img" src="${v.thumbImg}" alt="${v.title}" />`
+            : `<div class="card-thumb ${v.thumb}">${v.initials}</div>`
+          }
+          ${!hasVideo ? `
+            <div class="coming-soon-ribbon">Coming Soon</div>
+            <div class="coming-soon-overlay">
+              <div class="coming-soon-pill">เร็วๆ นี้</div>
+            </div>
+          ` : ''}
+          <div class="card-overlay">
+            <div class="card-title">${v.title}</div>
+            <div class="card-meta">
+              <span class="badge">${v.tag}</span>
+              ${v.duration ? `<span class="duration">${v.duration}</span><span>·</span>` : ''}
+              ${hasVideo
+                ? `<span style="color:#4caf50;">▶ พร้อมดู</span>`
+                : `<span style="color:#ffb703;">เร็วๆ นี้</span>`}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    renderRows();
+  </script>
+</body>
+</html>
