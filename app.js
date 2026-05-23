@@ -37,13 +37,13 @@ const VIDEOS = [
   ใส่ Firebase config ที่นี่ — เอาจาก Firebase Console > Project Settings > Your apps > Config
 */
 const FIREBASE_CONFIG = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCzQ3Rk0m1p2zsFG4x96N9hRhM_A7tXz-k",
+  authDomain: "aiia-f152d.firebaseapp.com",
+  databaseURL: "https://aiia-f152d-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "aiia-f152d",
+  storageBucket: "aiia-f152d.firebasestorage.app",
+  messagingSenderId: "962547263732",
+  appId: "1:962547263732:web:e2617968c06c25044f56a1"
 };
 
 let firebaseReady = false;
