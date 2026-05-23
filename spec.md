@@ -1,6 +1,6 @@
 # AI Audit Hub — Project Spec
 
-> **Session Updated:** 2026-05-23 (Session 4)
+> **Session Updated:** 2026-05-24 (Session 5)
 > **Status:** 2 หน้า (index + watch) — 3 คลิปพร้อมดู (EP1-EP3), 7 คลิป Coming Soon
 > **Live URL:** https://thawatchai070240-stack.github.io/IA_AI-Learning/
 > **GitHub:** https://github.com/thawatchai070240-stack/IA_AI-Learning
@@ -14,6 +14,14 @@ Frontend (HTML/CSS/JS) สำหรับเว็บดูคลิป VDO Use 
 - **Hero background video** — autoplay + loop + mute toggle + auto-unmute on first interaction
 
 ## 2. Completed Work
+
+### Session 5 (2026-05-24)
+- **Clickable Timestamps** — EP1-EP3 มี timestamp กดข้ามไปตรงเวลาในวิดีโอได้
+  - EP1: 3 จุด (สร้าง Agent, Combo Agent, System Prompt)
+  - EP2: 3 จุด (Interactive HTML, แก้ข้อความ, Audit Tool)
+  - EP3: 2 จุด (NotebookLM, Grabbit Extension)
+- **TechBrief Button** — ปุ่มลิงก์ไป AI News Weekly ที่หน้าหลัก
+- **Custom Skill** — สร้าง `/add-episode` สำหรับเพิ่ม EP ใหม่อย่างรวดเร็ว
 
 ### Session 4 (2026-05-23)
 - **Firebase Realtime Database** — เชื่อมต่อ Firebase project "AIIA" (asia-southeast1)
@@ -78,9 +86,11 @@ C:\ProjectX\X.22\
 ├── index.html        ← หน้าหลัก + Firebase SDK
 ├── watch.html        ← หน้าดูคลิป + Firebase SDK + per-video presence
 ├── styles.css        ← Netflix dark theme + maroon card borders
-├── app.js            ← Logic: VIDEOS catalog, Firebase presence, comments
+├── app.js            ← Logic: VIDEOS catalog, Firebase presence, timestamps, comments
 ├── spec.md           ← เอกสารนี้
 ├── login.html        ← (legacy — ไม่ได้ใช้)
+├── .claude/commands/
+│   └── add-episode.md  ← Skill สำหรับเพิ่ม EP ใหม่ (/add-episode)
 └── assets\
     ├── IA Agent.mp4                         ← 31 MB (EP1)
     ├── Interactive HTML&Tools.mp4           ← 38 MB (EP2)
