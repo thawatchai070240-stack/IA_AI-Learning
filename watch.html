@@ -93,16 +93,17 @@
     }
 
     /* ---------- Live viewer count ---------- */
-    function refreshViewers() {
-      const count = tickViewerCount(video.id);
-      document.getElementById('videoStats').innerHTML = `
-        <span class="stat"><span class="live-dot"></span> <strong>${count}</strong> คนกำลังดูตอนนี้</span>
-        <span>·</span>
-        <span class="stat">${video.duration}</span>
-      `;
-    }
-    refreshViewers();
-    setInterval(refreshViewers, 5000);
+    // แสดง initial count ก่อน
+    document.getElementById('videoStats').innerHTML = `
+      <span class="stat"><span class="live-dot"></span> <strong id="videoViewerCount">1</strong> คนกำลังดูตอนนี้</span>
+      <span>·</span>
+      <span class="stat">${video.duration}</span>
+    `;
+
+    // เริ่ม Firebase presence สำหรับวิดีโอนี้ (รอ Firebase init จาก renderNavbar)
+    setTimeout(() => {
+      initVideoPresence(video.id);
+    }, 1500);
 
     /* ---------- Comments ---------- */
     function renderComments() {

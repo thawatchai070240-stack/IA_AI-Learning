@@ -67,7 +67,7 @@ function initFirebasePresence() {
       }
     });
 
-    // ฟัง realtime count
+    // ฟัง realtime count (navbar)
     presenceRef.on('value', (snap) => {
       const count = snap.numChildren();
       const el = document.getElementById('visitorCount');
@@ -75,6 +75,7 @@ function initFirebasePresence() {
     });
 
     firebaseReady = true;
+    window._firebaseDB = db;
   } catch (e) {
     console.warn('Firebase init failed:', e);
   }
@@ -104,22 +105,36 @@ function addComment(videoId, comment) {
   localStorage.setItem('aiAuditHub.comments', JSON.stringify(all));
 }
 
-/* ---------- Viewer counter per video (simulated) ---------- */
+/* ---------- Viewer counter per video (Firebase real-time) ---------- */
+function initVideoPresence(videoId) {
+  if (!firebaseReady || !window._firebaseDB) return null;
+  const db = window._firebaseDB;
+  const videoPresRef = db.ref('videoPresence/' + videoId);
+  const myVideoRef = videoPresRef.push();
+
+  db.ref('.info/connected').on('value', (snap) => {
+    if (snap.val() === true) {
+      myVideoRef.set(true);
+      myVideoRef.onDisconnect().remove();
+    }
+  });
+
+  // ฟัง realtime count สำหรับวิดีโอนี้
+  videoPresRef.on('value', (snap) => {
+    const count = snap.numChildren();
+    const el = document.getElementById('videoViewerCount');
+    if (el) el.textContent = count;
+  });
+
+  return videoPresRef;
+}
+
+// Fallback สำหรับ per-video count
 function getViewerCount(videoId) {
-  const views = JSON.parse(localStorage.getItem('aiAuditHub.views') || '{}');
-  if (!views[videoId]) {
-    views[videoId] = Math.floor(Math.random() * 80) + 25;
-    localStorage.setItem('aiAuditHub.views', JSON.stringify(views));
-  }
-  return views[videoId];
+  return Math.floor(Math.random() * 5) + 1;
 }
 function tickViewerCount(videoId) {
-  const views = JSON.parse(localStorage.getItem('aiAuditHub.views') || '{}');
-  const cur = views[videoId] || getViewerCount(videoId);
-  const delta = Math.floor(Math.random() * 7) - 3;
-  views[videoId] = Math.max(8, cur + delta);
-  localStorage.setItem('aiAuditHub.views', JSON.stringify(views));
-  return views[videoId];
+  return getViewerCount(videoId);
 }
 
 /* ---------- Utility ---------- */
