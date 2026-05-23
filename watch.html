@@ -36,6 +36,12 @@
 
         <div class="video-desc" id="videoDesc"></div>
 
+        <!-- TIMESTAMPS -->
+        <div class="timestamp-section" id="timestampSection" style="display:none;">
+          <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Timestamp</h3>
+          <div class="timestamp-list" id="timestampList"></div>
+        </div>
+
         <!-- COMMENTS -->
         <section class="comments-section">
           <h3>ความคิดเห็น <span class="count" id="commentCount">0</span></h3>
@@ -104,6 +110,32 @@
     setTimeout(() => {
       initVideoPresence(video.id);
     }, 1500);
+
+    /* ---------- Timestamps ---------- */
+    if (video.timestamps && video.timestamps.length) {
+      const section = document.getElementById('timestampSection');
+      section.style.display = 'block';
+      const list = document.getElementById('timestampList');
+      list.innerHTML = video.timestamps.map(t => `
+        <a class="timestamp-item" data-seconds="${t.seconds}" href="#">
+          <span class="ts-time">${t.time}</span>
+          <span class="ts-label">${t.label}</span>
+        </a>
+      `).join('');
+
+      // กดแล้วข้ามไปตรงเวลาในวิดีโอ
+      list.querySelectorAll('.timestamp-item').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          const videoEl = document.querySelector('#player video');
+          if (videoEl) {
+            videoEl.currentTime = parseInt(el.dataset.seconds);
+            videoEl.play();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+      });
+    }
 
     /* ---------- Comments ---------- */
     function renderComments() {

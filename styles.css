@@ -688,6 +688,69 @@ img { display: block; max-width: 100%; }
 }
 
 /* ============================================
+   TIMESTAMPS
+   ============================================ */
+.timestamp-section {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.timestamp-section h3 {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.timestamp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.timestamp-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.timestamp-item:hover {
+  background: rgba(255,183,3,0.1);
+}
+
+.ts-time {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffb703;
+  min-width: 48px;
+  background: rgba(255,183,3,0.12);
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.ts-label {
+  font-size: 14px;
+  color: #ddd;
+  font-weight: 500;
+}
+
+.timestamp-item:hover .ts-label {
+  color: #fff;
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 768px) {
