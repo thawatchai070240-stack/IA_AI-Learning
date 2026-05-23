@@ -32,21 +32,61 @@ const VIDEOS = [
     desc: 'Coming Soon' },
 ];
 
-/* ---------- Visitor counter (simulated) ---------- */
-function getVisitorCount() {
+/* ---------- Firebase Visitor Counter (Real-time) ---------- */
+/*
+  ใส่ Firebase config ที่นี่ — เอาจาก Firebase Console > Project Settings > Your apps > Config
+*/
+const FIREBASE_CONFIG = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "000000000000",
+  appId: "YOUR_APP_ID"
+};
+
+let firebaseReady = false;
+
+function initFirebasePresence() {
+  if (typeof firebase === 'undefined') {
+    console.warn('Firebase SDK not loaded — using fallback');
+    return;
+  }
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    const db = firebase.database();
+    const presenceRef = db.ref('presence');
+    const myRef = presenceRef.push();
+
+    // เมื่อเชื่อมต่อ: เขียน true, เมื่อ disconnect: ลบอัตโนมัติ
+    db.ref('.info/connected').on('value', (snap) => {
+      if (snap.val() === true) {
+        myRef.set(true);
+        myRef.onDisconnect().remove();
+      }
+    });
+
+    // ฟัง realtime count
+    presenceRef.on('value', (snap) => {
+      const count = snap.numChildren();
+      const el = document.getElementById('visitorCount');
+      if (el) el.textContent = count;
+    });
+
+    firebaseReady = true;
+  } catch (e) {
+    console.warn('Firebase init failed:', e);
+  }
+}
+
+// Fallback ถ้า Firebase ยังไม่ได้ config
+function getVisitorFallback() {
   let data = JSON.parse(localStorage.getItem('aiAuditHub.visitors') || 'null');
   if (!data || Date.now() - data.ts > 3600000) {
     data = { base: Math.floor(Math.random() * 15) + 8, ts: Date.now() };
     localStorage.setItem('aiAuditHub.visitors', JSON.stringify(data));
   }
-  return data.base;
-}
-function tickVisitorCount() {
-  const data = JSON.parse(localStorage.getItem('aiAuditHub.visitors') || '{"base":12,"ts":0}');
-  const delta = Math.floor(Math.random() * 3) - 1;
-  data.base = Math.max(3, data.base + delta);
-  data.ts = Date.now();
-  localStorage.setItem('aiAuditHub.visitors', JSON.stringify(data));
   return data.base;
 }
 
@@ -115,16 +155,29 @@ function renderNavbar() {
     <div class="nav-right">
       <div class="visitor-badge">
         <span class="live-dot"></span>
-        <span id="visitorCount">${getVisitorCount()}</span> คนกำลังดูเว็บ
+        <span id="visitorCount">${getVisitorFallback()}</span> คนกำลังดูเว็บ
       </div>
     </div>
   `;
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
   });
-  // Update visitor count
-  setInterval(() => {
-    const el = document.getElementById('visitorCount');
-    if (el) el.textContent = tickVisitorCount();
-  }, 8000);
+
+  // Init Firebase — ถ้า config ยังเป็น placeholder จะ fallback อัตโนมัติ
+  if (FIREBASE_CONFIG.apiKey !== 'YOUR_API_KEY') {
+    initFirebasePresence();
+  } else {
+    // Fallback: simulation
+    setInterval(() => {
+      const el = document.getElementById('visitorCount');
+      if (el) {
+        const data = JSON.parse(localStorage.getItem('aiAuditHub.visitors') || '{"base":12,"ts":0}');
+        const delta = Math.floor(Math.random() * 3) - 1;
+        data.base = Math.max(3, data.base + delta);
+        data.ts = Date.now();
+        localStorage.setItem('aiAuditHub.visitors', JSON.stringify(data));
+        el.textContent = data.base;
+      }
+    }, 8000);
+  }
 }
