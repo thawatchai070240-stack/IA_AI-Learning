@@ -628,6 +628,66 @@ img { display: block; max-width: 100%; }
 }
 
 /* ============================================
+   TECHBRIEF BANNER
+   ============================================ */
+.techbrief-banner {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px 50px;
+}
+
+.techbrief-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a1010 100%);
+  border: 2px solid #c0392b;
+  border-radius: 14px;
+  padding: 18px 36px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(192, 57, 43, 0.2);
+}
+
+.techbrief-btn:hover {
+  background: linear-gradient(135deg, #2a1010 0%, #3a1515 100%);
+  border-color: #e74c3c;
+  box-shadow: 0 6px 30px rgba(192, 57, 43, 0.4);
+  transform: translateY(-2px);
+}
+
+.techbrief-logo {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.tb-tech {
+  color: #1a1a1a;
+  background: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.tb-brief {
+  color: #e74c3c;
+  margin-left: 2px;
+}
+
+.techbrief-desc {
+  font-size: 15px;
+  color: #ccc;
+  font-weight: 500;
+}
+
+.techbrief-btn svg {
+  color: #e74c3c;
+  flex-shrink: 0;
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 768px) {
@@ -638,4 +698,7 @@ img { display: block; max-width: 100%; }
   .row-header, .row-scroll { padding-left: 20px; padding-right: 20px; }
   .row-scroll { grid-auto-columns: minmax(200px, 1fr); }
   .player-wrap, .watch-meta { padding: 0 16px; }
+  .techbrief-btn { padding: 14px 24px; gap: 12px; }
+  .techbrief-logo { font-size: 22px; }
+  .techbrief-desc { font-size: 13px; }
 }
