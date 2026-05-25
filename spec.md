@@ -1,7 +1,7 @@
 # AI Audit Hub — Project Spec
 
-> **Session Updated:** 2026-05-24 (Session 5)
-> **Status:** 2 หน้า (index + watch) — 3 คลิปพร้อมดู (EP1-EP3), 7 คลิป Coming Soon
+> **Session Updated:** 2026-05-24 (Session 7)
+> **Status:** 2 หน้า (index + watch) — 3 คลิปพร้อมดู (EP1-EP3 เนื้อหาแก้ไขแล้ว), 7 คลิป Coming Soon
 > **Live URL:** https://thawatchai070240-stack.github.io/IA_AI-Learning/
 > **GitHub:** https://github.com/thawatchai070240-stack/IA_AI-Learning
 
@@ -12,8 +12,15 @@ Frontend (HTML/CSS/JS) สำหรับเว็บดูคลิป VDO Use 
 - **กดการ์ด → ไปหน้า watch.html** เล่นวิดีโอ
 - **Firebase Realtime Database** — นับจำนวนผู้เข้าชมเว็บ + ผู้ดูต่อคลิป แบบ real-time
 - **Hero background video** — autoplay + loop + mute toggle + auto-unmute on first interaction
+- **Clickable Timestamps** — กดข้ามไปตรงเวลาในวิดีโอได้
+- **TechBrief Button** — ลิงก์ไปเว็บ AI News Weekly
+- **Custom Skill** — `/add-episode` สำหรับเพิ่ม EP ใหม่
 
 ## 2. Completed Work
+
+### Session 6-7 (2026-05-24)
+- **ถอด EP1 + EP2 ชั่วคราว** → แก้ไขเนื้อหา → **ใส่กลับพร้อมไฟล์ใหม่**
+- **TechBrief button restyle** — ปุ่มเล็กลง, สีดำด้านมีมิติ, ขยับลงใกล้ footer
 
 ### Session 5 (2026-05-24)
 - **Clickable Timestamps** — EP1-EP3 มี timestamp กดข้ามไปตรงเวลาในวิดีโอได้
