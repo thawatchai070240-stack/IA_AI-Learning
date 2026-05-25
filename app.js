@@ -5,7 +5,7 @@
 /* ---------- Video catalog ---------- */
 const VIDEOS = [
   { id: 'v01', title: 'EP1 IA Agent', category: 'AI for Audit', duration: '17:11 นาที', tag: 'ใหม่', thumb: 't1', initials: 'EP1',
-    /* src: 'assets/IA Agent.mp4', — ถอดออกชั่วคราว รอแก้ไขเนื้อหา */
+    src: 'assets/IA Agent.mp4',
     thumbImg: 'assets/Thumnail Ep1.png',
     desc: 'สอนใช้ GINII สร้าง Agent และใช้ Combo Agent เพื่องานตรวจสอบภายใน',
     timestamps: [
@@ -14,7 +14,7 @@ const VIDEOS = [
       { time: '14:35', seconds: 875, label: 'เทคนิคสร้าง System Prompt' },
     ] },
   { id: 'v02', title: 'EP2 Interactive HTML & Tools', category: 'AI for Audit', duration: '16:54 นาที', tag: 'ใหม่', thumb: 't2', initials: 'EP2',
-    /* src: 'assets/Interactive HTML&Tools.mp4', — ถอดออกชั่วคราว รอแก้ไขเนื้อหา */
+    src: 'assets/Interactive HTML&Tools.mp4',
     thumbImg: 'assets/Thumnail Ep2.png',
     desc: 'สาธิตการสร้างเครื่องมือ Interactive HTML สำหรับงาน Audit — Dashboard, Checklist, และ Tools ที่ใช้งานได้จริง',
     timestamps: [
