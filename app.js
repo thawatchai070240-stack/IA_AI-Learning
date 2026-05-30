@@ -164,6 +164,116 @@ function tickViewerCount(videoId) {
   return getViewerCount(videoId);
 }
 
+/* ---------- Unique User ID ---------- */
+function getUserId() {
+  let uid = localStorage.getItem('aiAuditHub.uid');
+  if (!uid) {
+    uid = 'u_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('aiAuditHub.uid', uid);
+  }
+  return uid;
+}
+
+/* ---------- Like System (Firebase) ---------- */
+function toggleLike(videoId, callback) {
+  const uid = getUserId();
+  const likedKey = 'aiAuditHub.liked.' + videoId;
+  const alreadyLiked = localStorage.getItem(likedKey) === '1';
+
+  if (!firebaseReady || !window._firebaseDB) {
+    // Fallback: localStorage only
+    const fallbackKey = 'aiAuditHub.likesCount';
+    const counts = JSON.parse(localStorage.getItem(fallbackKey) || '{}');
+    if (alreadyLiked) {
+      counts[videoId] = Math.max(0, (counts[videoId] || 1) - 1);
+      localStorage.removeItem(likedKey);
+    } else {
+      counts[videoId] = (counts[videoId] || 0) + 1;
+      localStorage.setItem(likedKey, '1');
+    }
+    localStorage.setItem(fallbackKey, JSON.stringify(counts));
+    if (callback) callback(!alreadyLiked, counts[videoId]);
+    return;
+  }
+
+  const db = window._firebaseDB;
+  const likesRef = db.ref('likes/' + videoId);
+  const userLikeRef = db.ref('likedBy/' + videoId + '/' + uid);
+
+  if (alreadyLiked) {
+    // Unlike
+    likesRef.transaction(current => Math.max(0, (current || 1) - 1));
+    userLikeRef.remove();
+    localStorage.removeItem(likedKey);
+  } else {
+    // Like
+    likesRef.transaction(current => (current || 0) + 1);
+    userLikeRef.set(true);
+    localStorage.setItem(likedKey, '1');
+  }
+
+  if (callback) callback(!alreadyLiked, null);
+}
+
+function isLiked(videoId) {
+  return localStorage.getItem('aiAuditHub.liked.' + videoId) === '1';
+}
+
+function listenLikes(videoId, el) {
+  if (!firebaseReady || !window._firebaseDB) {
+    const counts = JSON.parse(localStorage.getItem('aiAuditHub.likesCount') || '{}');
+    if (el) el.textContent = formatCount(counts[videoId] || 0);
+    return;
+  }
+  const db = window._firebaseDB;
+  db.ref('likes/' + videoId).on('value', snap => {
+    const count = snap.val() || 0;
+    if (el) el.textContent = formatCount(count);
+  });
+}
+
+/* ---------- View Count (Firebase — cumulative) ---------- */
+function incrementViewCount(videoId) {
+  const sessionKey = 'aiAuditHub.viewSession.' + videoId;
+  const lastView = parseInt(sessionStorage.getItem(sessionKey) || '0');
+  const now = Date.now();
+
+  // Prevent counting refresh: 30-min cooldown
+  if (now - lastView < 1800000) return;
+  sessionStorage.setItem(sessionKey, now.toString());
+
+  if (!firebaseReady || !window._firebaseDB) {
+    const fallbackKey = 'aiAuditHub.viewsCount';
+    const counts = JSON.parse(localStorage.getItem(fallbackKey) || '{}');
+    counts[videoId] = (counts[videoId] || 0) + 1;
+    localStorage.setItem(fallbackKey, JSON.stringify(counts));
+    return;
+  }
+
+  const db = window._firebaseDB;
+  db.ref('views/' + videoId).transaction(current => (current || 0) + 1);
+}
+
+function listenViews(videoId, el) {
+  if (!firebaseReady || !window._firebaseDB) {
+    const counts = JSON.parse(localStorage.getItem('aiAuditHub.viewsCount') || '{}');
+    if (el) el.textContent = formatCount(counts[videoId] || 0) + ' views';
+    return;
+  }
+  const db = window._firebaseDB;
+  db.ref('views/' + videoId).on('value', snap => {
+    const count = snap.val() || 0;
+    if (el) el.textContent = formatCount(count) + ' views';
+  });
+}
+
+/* ---------- Format number ---------- */
+function formatCount(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+  return n.toString();
+}
+
 /* ---------- Utility ---------- */
 function timeAgo(ts) {
   const diff = (Date.now() - ts) / 1000;

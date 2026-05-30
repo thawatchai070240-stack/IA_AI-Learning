@@ -628,6 +628,97 @@ img { display: block; max-width: 100%; }
 }
 
 /* ============================================
+   CARD STATS (Views + Like)
+   ============================================ */
+.card-stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.card-views {
+  font-size: 11px;
+  color: #999;
+  font-weight: 500;
+}
+
+.card-like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 3px 10px 3px 7px;
+  color: #aaa;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.card-like-btn:hover {
+  background: rgba(229,9,20,0.15);
+  border-color: rgba(229,9,20,0.3);
+  color: #ff7b80;
+}
+
+.card-like-btn.liked {
+  background: rgba(229,9,20,0.15);
+  border-color: rgba(229,9,20,0.3);
+  color: #E50914;
+}
+
+.card-like-btn svg {
+  transition: transform 0.2s ease;
+}
+
+.card-like-btn.like-pop svg {
+  animation: likePopAnim 0.4s ease;
+}
+
+/* Watch page like button */
+.watch-like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 24px;
+  padding: 6px 14px 6px 10px;
+  color: #bbb;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.watch-like-btn:hover {
+  background: rgba(229,9,20,0.12);
+  border-color: rgba(229,9,20,0.3);
+  color: #ff7b80;
+}
+
+.watch-like-btn.liked {
+  background: rgba(229,9,20,0.15);
+  border-color: rgba(229,9,20,0.35);
+  color: #E50914;
+}
+
+.watch-like-btn.like-pop svg {
+  animation: likePopAnim 0.4s ease;
+}
+
+@keyframes likePopAnim {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.35); }
+  60% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* ============================================
    TECHBRIEF BANNER
    ============================================ */
 .techbrief-banner {
@@ -703,6 +794,45 @@ img { display: block; max-width: 100%; }
   flex-shrink: 0;
   width: 14px;
   height: 14px;
+}
+
+/* ============================================
+   CONTACT DEVELOPER
+   ============================================ */
+.contact-banner {
+  display: flex;
+  justify-content: center;
+  padding: 0 20px 8px;
+}
+
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  transition: all 0.25s ease;
+}
+
+.contact-btn:hover {
+  color: #999;
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+}
+
+.contact-btn svg {
+  color: #555;
+  flex-shrink: 0;
+}
+
+.contact-btn:hover svg {
+  color: #888;
 }
 
 /* ============================================
@@ -818,4 +948,5 @@ img { display: block; max-width: 100%; }
   .techbrief-btn { padding: 8px 18px; gap: 8px; }
   .techbrief-logo { font-size: 16px; }
   .techbrief-desc { font-size: 11px; }
+  .contact-btn { font-size: 10px; padding: 5px 12px; }
 }

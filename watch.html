@@ -106,17 +106,42 @@
         `radial-gradient(ellipse at center, #1a1a22 0%, #050507 75%)`;
     }
 
-    /* ---------- Live viewer count ---------- */
-    // แสดง initial count ก่อน
+    /* ---------- Live viewer count + Views + Like ---------- */
+    const liked = video.src && isLiked(video.id);
     document.getElementById('videoStats').innerHTML = `
       <span class="stat"><span class="live-dot"></span> <strong id="videoViewerCount">1</strong> คนกำลังดูตอนนี้</span>
       <span>·</span>
       <span class="stat">${video.duration}</span>
+      <span>·</span>
+      <span class="stat" id="watchViewCount">0 views</span>
+      <span>·</span>
+      <button class="watch-like-btn ${liked ? 'liked' : ''}" id="watchLikeBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="${liked ? '#E50914' : 'none'}" stroke="${liked ? '#E50914' : 'currentColor'}" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span id="watchLikeCount">0</span>
+      </button>
     `;
 
-    // เริ่ม Firebase presence สำหรับวิดีโอนี้ (รอ Firebase init จาก renderNavbar)
+    // Like button click
+    document.getElementById('watchLikeBtn').addEventListener('click', () => {
+      const btn = document.getElementById('watchLikeBtn');
+      toggleLike(video.id, (nowLiked) => {
+        btn.classList.toggle('liked', nowLiked);
+        const svg = btn.querySelector('svg');
+        svg.setAttribute('fill', nowLiked ? '#E50914' : 'none');
+        svg.setAttribute('stroke', nowLiked ? '#E50914' : 'currentColor');
+        if (nowLiked) {
+          btn.classList.add('like-pop');
+          setTimeout(() => btn.classList.remove('like-pop'), 400);
+        }
+      });
+    });
+
+    // Init Firebase presence + likes + views
     setTimeout(() => {
       initVideoPresence(video.id);
+      listenLikes(video.id, document.getElementById('watchLikeCount'));
+      listenViews(video.id, document.getElementById('watchViewCount'));
+      if (video.src) incrementViewCount(video.id);
     }, 1500);
 
     /* ---------- Download PDF ---------- */
