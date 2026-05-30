@@ -1,7 +1,7 @@
 # AI Audit Hub — Project Spec
 
-> **Session Updated:** 2026-05-24 (Session 7)
-> **Status:** 2 หน้า (index + watch) — 3 คลิปพร้อมดู (EP1-EP3 เนื้อหาแก้ไขแล้ว), 7 คลิป Coming Soon
+> **Session Updated:** 2026-05-30 (Session 8)
+> **Status:** 2 หน้า (index + watch) — 4 คลิปพร้อมดู (EP1-EP4), 6 คลิป Coming Soon
 > **Live URL:** https://thawatchai070240-stack.github.io/IA_AI-Learning/
 > **GitHub:** https://github.com/thawatchai070240-stack/IA_AI-Learning
 
@@ -13,10 +13,16 @@ Frontend (HTML/CSS/JS) สำหรับเว็บดูคลิป VDO Use 
 - **Firebase Realtime Database** — นับจำนวนผู้เข้าชมเว็บ + ผู้ดูต่อคลิป แบบ real-time
 - **Hero background video** — autoplay + loop + mute toggle + auto-unmute on first interaction
 - **Clickable Timestamps** — กดข้ามไปตรงเวลาในวิดีโอได้
+- **Downloadable PDF** — EP ที่มีเอกสารประกอบจะแสดงปุ่มดาวน์โหลด PDF
 - **TechBrief Button** — ลิงก์ไปเว็บ AI News Weekly
 - **Custom Skill** — `/add-episode` สำหรับเพิ่ม EP ใหม่
 
 ## 2. Completed Work
+
+### Session 8 (2026-05-30)
+- **เพิ่ม EP4 Build IA Tools (Using Python+AI)** — คลิป 34:08 นาที, 8 timestamps
+- **Downloadable PDF** — เพิ่ม feature ปุ่มดาวน์โหลดเอกสารประกอบ (Streamlit_AI_Playbook.pdf)
+- **Download button styling** — ปุ่มสีเขียวเข้ม gradient, hover effect
 
 ### Session 6-7 (2026-05-24)
 - **ถอด EP1 + EP2 ชั่วคราว** → แก้ไขเนื้อหา → **ใส่กลับพร้อมไฟล์ใหม่**
@@ -83,7 +89,7 @@ Frontend (HTML/CSS/JS) สำหรับเว็บดูคลิป VDO Use 
 
 ## 6. Known Issues / Limitations
 - Firebase Rules อยู่ใน test mode — หมดอายุ 2026-6-22 ต้องแก้ให้เฉพาะ presence path
-- MP4 files รวม ~114 MB บน Git — ไม่เหมาะระยะยาว (แนะนำ CDN)
+- MP4 files รวม ~205 MB บน Git — ไม่เหมาะระยะยาว (แนะนำ CDN) — GitHub warning: EP4 > 50 MB
 - Comments ยังใช้ localStorage (ไม่ sync ข้ามเครื่อง)
 - login.html ยังอยู่ในโฟลเดอร์ (legacy ไม่ได้ใช้)
 
@@ -103,9 +109,12 @@ C:\ProjectX\X.22\
     ├── Interactive HTML&Tools.mp4           ← 38 MB (EP2)
     ├── NotebookLM for Internal Audit.mp4    ← 45 MB (EP3)
     ├── Hero background.mp4                 ← 8.9 MB (Hero พื้นหลัง)
+    ├── Build IA Tools(Using Python+AI).mp4  ← 91 MB (EP4)
+    ├── Streamlit_AI_Playbook.pdf           ← 9.3 MB (เอกสารประกอบ EP4)
     ├── Thumnail Ep1.png                    ← ~1.5 MB
     ├── Thumnail Ep2.png                    ← ~1.5 MB
-    └── Thumnail Ep3.png                    ← ~1.5 MB
+    ├── Thumnail Ep3.png                    ← ~1.5 MB
+    └── Thumnail Ep4.png                    ← ~1.5 MB
 ```
 
 ## 8. Next Recommended Steps
