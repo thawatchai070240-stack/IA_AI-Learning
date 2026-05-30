@@ -14,6 +14,9 @@ Frontend (HTML/CSS/JS) สำหรับเว็บดูคลิป VDO Use 
 - **Hero background video** — autoplay + loop + mute toggle + auto-unmute on first interaction
 - **Clickable Timestamps** — กดข้ามไปตรงเวลาในวิดีโอได้
 - **Downloadable PDF** — EP ที่มีเอกสารประกอบจะแสดงปุ่มดาวน์โหลด PDF
+- **Like System** — กดถูกใจแต่ละคลิป (Firebase + localStorage)
+- **View Count** — ยอดวิวสะสมแบบ YouTube (Firebase)
+- **Contact Developer** — ปุ่มส่งอีเมลถึงผู้พัฒนา
 - **TechBrief Button** — ลิงก์ไปเว็บ AI News Weekly
 - **Custom Skill** — `/add-episode` สำหรับเพิ่ม EP ใหม่
 
@@ -22,7 +25,9 @@ Frontend (HTML/CSS/JS) สำหรับเว็บดูคลิป VDO Use 
 ### Session 8 (2026-05-30)
 - **เพิ่ม EP4 Build IA Tools (Using Python+AI)** — คลิป 34:08 นาที, 8 timestamps
 - **Downloadable PDF** — เพิ่ม feature ปุ่มดาวน์โหลดเอกสารประกอบ (Streamlit_AI_Playbook.pdf)
-- **Download button styling** — ปุ่มสีเขียวเข้ม gradient, hover effect
+- **Like System** — ❤️ กดถูกใจแต่ละคลิป เก็บใน Firebase + localStorage, แสดงที่การ์ดและหน้าดู
+- **Cumulative View Count** — ยอดวิวสะสมแบบ YouTube (30-min cooldown), เก็บใน Firebase
+- **Contact Developer** — ปุ่ม mailto ใต้ TechBrief ส่งอีเมลถึง Thawatchai070240@gmail.com
 
 ### Session 6-7 (2026-05-24)
 - **ถอด EP1 + EP2 ชั่วคราว** → แก้ไขเนื้อหา → **ใส่กลับพร้อมไฟล์ใหม่**
