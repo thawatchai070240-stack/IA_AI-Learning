@@ -28,6 +28,7 @@ Frontend (HTML/CSS/JS) สำหรับเว็บดูคลิป VDO Use 
 - **Like System** — ❤️ กดถูกใจแต่ละคลิป เก็บใน Firebase + localStorage, แสดงที่การ์ดและหน้าดู
 - **Cumulative View Count** — ยอดวิวสะสมแบบ YouTube (30-min cooldown), เก็บใน Firebase
 - **Contact Developer** — ปุ่ม mailto ใต้ TechBrief ส่งอีเมลถึง Thawatchai070240@gmail.com
+- **EP4 Prompt Template** — เพิ่ม Prompt Template ใน desc ของ EP4 พร้อม styled prompt-box (Input/Logic/Output/AI/Structure)
 
 ### Session 6-7 (2026-05-24)
 - **ถอด EP1 + EP2 ชั่วคราว** → แก้ไขเนื้อหา → **ใส่กลับพร้อมไฟล์ใหม่**
