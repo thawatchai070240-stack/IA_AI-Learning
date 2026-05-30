@@ -33,7 +33,17 @@ const VIDEOS = [
   { id: 'v04', title: 'EP4 Build IA Tools (Using Python+AI)', category: 'AI for Audit', duration: '34:08 นาที', tag: 'ใหม่', thumb: 't4', initials: 'EP4',
     src: 'assets/Build IA Tools(Using Python+AI).mp4',
     thumbImg: 'assets/Thumnail Ep4.png',
-    desc: 'สอนใช้ AI สร้าง IA Tools ด้วย Python Code & Streamlit',
+    desc: 'สอนใช้ AI สร้าง IA Tools ด้วย Python Code &amp; Streamlit'
+      + '<div class="prompt-box">'
+      + '<div class="prompt-header">📋 Prompt Template สำหรับสร้าง IA Tools</div>'
+      + '<div class="prompt-body">'
+      + '<p>Prompt &gt;&gt; ต้องการสร้าง Web Application ด้วย Streamlit ขอ UI (User Interface) สวยงาม ทันสมัย ดูเป็นมืออาชีพ มากกว่ารูปแบบพื้นฐานของ Streamlit โดยประยุกต์ใช้ HTML และ CSS เข้ามาช่วยในการตกแต่งหน้าแอป</p>'
+      + '<p class="prompt-section"><span class="prompt-label">📥 Input:</span> ระบบนี้มี Input คือ…………………<span class="prompt-hint">(กอปตัวอย่าง Header และข้อมูลด้านในมาจะกี่ไฟล์ก็ได้ แต่เนื้อหาทั้งหมดต้องไม่เกิน 10MB)</span>………………….ช่วยทำความเข้าใจโครงสร้าง</p>'
+      + '<p class="prompt-section"><span class="prompt-label">⚙️ Logic:</span> ระบบนี้มี Logic คือ….<span class="prompt-hint">(บอกว่าจะนำข้อมูลที่ Input มาทำอะไรบ้าง ยิ่งเขียนชัดยิ่งได้ระบบตามที่ต้องการ อาศัยประสบการณ์ + ความรู้ส่วนบุคคล)</span>…………..</p>'
+      + '<p class="prompt-section"><span class="prompt-label">📊 Output:</span> ทุกการวิเคราะห์ต้องมี Data Visualization เพื่อให้เห็นภาพชัดเจน และสามารถ Export ข้อมูลออกมาในรูปแบบ Excel / PDF / Word <span class="prompt-hint">(เลือกสักอัน ปกติจะ Excel)</span></p>'
+      + '<p class="prompt-section"><span class="prompt-label">🤖 AI:</span> สามารถใช้ AI ในการวิเคราะห์ข้อมูลได้ มี Field สำหรับใส่ API Key ของ…<span class="prompt-hint">Provider Name</span>….และสามารถเลือก AI Model ได้ <span class="prompt-hint">(ถ้าจะใช้ API Key จาก Provider ข้างนอก ข้อมูลต้องไม่เป็นข้อมูลภายในหรือระบุได้ว่าเป็นบริษัทใด)</span></p>'
+      + '<p class="prompt-section"><span class="prompt-label">🏗️ โครงสร้าง:</span> ช่วยบอกโครงสร้างของระบบเพื่อที่ผมจะไปสร้างไฟล์ตาม <span class="prompt-hint">(ขอโครงสร้างแบบกระชับ อันไหนรวมกันได้ก็รวม)</span> และวาง Code ได้อย่างถูกต้อง โดยผมใช้ Python V.3.13</p>'
+      + '</div></div>',
     downloadPdf: { name: 'Streamlit_AI_Playbook.pdf', src: 'assets/Streamlit_AI_Playbook.pdf', label: 'เอกสารประกอบการเรียนรู้' },
     timestamps: [
       { time: '0:45', seconds: 45, label: 'ติดตั้ง Program จำเป็น' },
