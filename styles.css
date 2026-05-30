@@ -65,6 +65,26 @@ img { display: block; max-width: 100%; }
 .nav-right { display: flex; align-items: center; gap: 16px; }
 
 /* Visitor badge */
+/* Total visit badge (cumulative) */
+.total-visit-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #aaa;
+}
+
+.total-visit-badge svg {
+  color: #888;
+  flex-shrink: 0;
+}
+
+/* Real-time visitor badge */
 .visitor-badge {
   display: flex;
   align-items: center;
@@ -989,6 +1009,7 @@ img { display: block; max-width: 100%; }
    ============================================ */
 @media (max-width: 768px) {
   .navbar { padding: 12px 20px; }
+  .total-visit-badge { font-size: 11px; padding: 4px 10px; }
   .visitor-badge { font-size: 11px; padding: 4px 10px; }
   .hero { padding: 0 20px 80px; min-height: 460px; }
   .hero h1 { font-size: 36px; }

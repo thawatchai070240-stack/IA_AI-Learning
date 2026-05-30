@@ -277,6 +277,44 @@ function listenViews(videoId, el) {
   });
 }
 
+/* ---------- Total Site Visits (Firebase — cumulative) ---------- */
+function incrementSiteVisits() {
+  const sessionKey = 'aiAuditHub.siteVisitSession';
+  const lastVisit = parseInt(sessionStorage.getItem(sessionKey) || '0');
+  const now = Date.now();
+
+  // 30-min cooldown ป้องกัน refresh นับซ้ำ
+  if (now - lastVisit < 1800000) return;
+  sessionStorage.setItem(sessionKey, now.toString());
+
+  if (!firebaseReady || !window._firebaseDB) {
+    const key = 'aiAuditHub.totalSiteVisits';
+    const count = parseInt(localStorage.getItem(key) || '0') + 1;
+    localStorage.setItem(key, count.toString());
+    return;
+  }
+
+  const db = window._firebaseDB;
+  db.ref('totalSiteVisits').transaction(current => (current || 0) + 1);
+}
+
+function listenSiteVisits() {
+  const el = document.getElementById('totalVisitCount');
+  if (!el) return;
+
+  if (!firebaseReady || !window._firebaseDB) {
+    const count = parseInt(localStorage.getItem('aiAuditHub.totalSiteVisits') || '0');
+    el.textContent = formatCount(count);
+    return;
+  }
+
+  const db = window._firebaseDB;
+  db.ref('totalSiteVisits').on('value', snap => {
+    const count = snap.val() || 0;
+    el.textContent = formatCount(count);
+  });
+}
+
 /* ---------- Format number ---------- */
 function formatCount(n) {
   if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
@@ -315,6 +353,10 @@ function renderNavbar() {
       <a href="index.html" class="brand">AI<span class="sub">AUDIT</span></a>
     </div>
     <div class="nav-right">
+      <div class="total-visit-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span id="totalVisitCount">0</span> ผู้เข้าชม
+      </div>
       <div class="visitor-badge">
         <span class="live-dot"></span>
         <span id="visitorCount">${getVisitorFallback()}</span> คนกำลังดูเว็บ
@@ -328,6 +370,11 @@ function renderNavbar() {
   // Init Firebase — ถ้า config ยังเป็น placeholder จะ fallback อัตโนมัติ
   if (FIREBASE_CONFIG.apiKey !== 'YOUR_API_KEY') {
     initFirebasePresence();
+    // รอ Firebase init แล้วเริ่มนับ + ฟังยอดสะสม
+    setTimeout(() => {
+      incrementSiteVisits();
+      listenSiteVisits();
+    }, 1500);
   } else {
     // Fallback: simulation
     setInterval(() => {
