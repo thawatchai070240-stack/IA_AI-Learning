@@ -36,6 +36,14 @@
 
         <div class="video-desc" id="videoDesc"></div>
 
+        <!-- DOWNLOAD PDF -->
+        <div class="download-section" id="downloadSection" style="display:none;">
+          <a class="download-btn" id="downloadBtn" href="#" download>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span id="downloadLabel">ดาวน์โหลดเอกสารประกอบ</span>
+          </a>
+        </div>
+
         <!-- TIMESTAMPS -->
         <div class="timestamp-section" id="timestampSection" style="display:none;">
           <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Timestamp</h3>
@@ -110,6 +118,17 @@
     setTimeout(() => {
       initVideoPresence(video.id);
     }, 1500);
+
+    /* ---------- Download PDF ---------- */
+    if (video.downloadPdf) {
+      const dlSection = document.getElementById('downloadSection');
+      dlSection.style.display = 'block';
+      const dlBtn = document.getElementById('downloadBtn');
+      dlBtn.href = video.downloadPdf.src;
+      dlBtn.setAttribute('download', video.downloadPdf.name);
+      document.getElementById('downloadLabel').textContent =
+        `${video.downloadPdf.label} — ${video.downloadPdf.name}`;
+    }
 
     /* ---------- Timestamps ---------- */
     if (video.timestamps && video.timestamps.length) {

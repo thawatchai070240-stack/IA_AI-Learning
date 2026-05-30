@@ -706,6 +706,42 @@ img { display: block; max-width: 100%; }
 }
 
 /* ============================================
+   DOWNLOAD PDF
+   ============================================ */
+.download-section {
+  margin-top: 16px;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #1a472a 0%, #0d2818 100%);
+  border: 1px solid rgba(76, 175, 80, 0.35);
+  color: #4caf50;
+  padding: 14px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+}
+
+.download-btn:hover {
+  background: linear-gradient(135deg, #245534 0%, #143520 100%);
+  border-color: rgba(76, 175, 80, 0.6);
+  color: #66bb6a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(76, 175, 80, 0.2);
+}
+
+.download-btn:active {
+  transform: translateY(0);
+}
+
+/* ============================================
    TIMESTAMPS
    ============================================ */
 .timestamp-section {
